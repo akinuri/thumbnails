@@ -15,12 +15,19 @@ if len(sys.argv) < 2:
     sys.exit()
 
 input_video = sys.argv[1]
-input_filename = os.path.basename(input_video)
+input_file_name = os.path.basename(input_video)
+
+max_file_name_length = 100
+if len(input_file_name) > max_file_name_length:
+    print("File name is too long (%s+). Consider renaming." % max_file_name_length)
+    input("Press Enter to exit.")
+    sys.exit()
+
 duration = float(ffmpeg.probe(input_video)["format"]["duration"])
 frames = 4
 desktop_path = os.path.join(os.path.expanduser('~'), "Desktop")
-frames_dir = os.path.join(desktop_path, input_filename[:50].rstrip(".") + "_frames")
-thumbnails_path = os.path.join(desktop_path, input_filename[:50].rstrip(".") + "_thumbs.jpg")
+frames_dir = os.path.join(desktop_path, input_file_name + "_frames")
+thumbnails_path = os.path.join(desktop_path, input_file_name + "_thumbs.jpg")
 
 print("Input video:", input_video)
 print("Frames:", frames)
