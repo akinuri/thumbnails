@@ -14,14 +14,17 @@ if len(sys.argv) < 2:
     input("Press Enter to exit.")
     sys.exit()
 
-grid_size = (3, 3)
-frames = grid_size[0] * grid_size[1]
-
 desktop_path = os.path.join(os.path.expanduser('~'), "Desktop")
 
 inputs = sys.argv[1:]
 
 print("Found %d files" % len(inputs))
+
+grid_size = (3, 3)
+frames = grid_size[0] * grid_size[1]
+
+print("")
+print("Grid is %d × %d" % (grid_size[0], grid_size[1]))
 
 for index, input_video in enumerate(inputs):
     
@@ -35,7 +38,6 @@ for index, input_video in enumerate(inputs):
         print("File name is too long (%s+). Consider renaming." % max_file_name_length)
         continue
 
-    duration = float(ffmpeg.probe(input_video)["format"]["duration"])
     frames_dir = os.path.join(desktop_path, input_file_name + "_frames")
     thumbnails_path = os.path.join(desktop_path, input_file_name + "_thumbs.jpg")
 
@@ -44,6 +46,7 @@ for index, input_video in enumerate(inputs):
 
     os.makedirs(frames_dir, exist_ok=True)
 
+    duration = float(ffmpeg.probe(input_video)["format"]["duration"])
     interval = duration / (frames + 1)
     timestamps = [interval * (i + 1) for i in range(frames)]
     timestamps = [float_to_duration(ts) for ts in timestamps]
