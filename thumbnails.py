@@ -14,8 +14,6 @@ if len(sys.argv) < 2:
     input("Press Enter to exit.")
     sys.exit()
 
-desktop_path = os.path.join(os.path.expanduser('~'), "Desktop")
-
 inputs = sys.argv[1:]
 
 print("Found %d files" % len(inputs))
@@ -31,6 +29,7 @@ for index, input_video in enumerate(inputs):
     print("")
     print("Input file: %s" % input_video)
     
+    input_file_dir = os.path.dirname(input_video)
     input_file_name = os.path.basename(input_video)
 
     max_file_name_length = 100
@@ -38,11 +37,9 @@ for index, input_video in enumerate(inputs):
         print("File name is too long (%s+). Consider renaming." % max_file_name_length)
         continue
 
-    frames_dir = os.path.join(desktop_path, input_file_name + "_frames")
-    thumbnails_path = os.path.join(desktop_path, input_file_name + "_thumbs.jpg")
-
-    print("Output folder:", frames_dir)
-    print("Output file:", thumbnails_path)
+    frames_dir = os.path.join(input_file_dir, input_file_name + "_frames")
+    thumbnails_name = input_file_name + "_thumbs.jpg"
+    thumbnails_path = os.path.join(input_file_dir, thumbnails_name)
 
     os.makedirs(frames_dir, exist_ok=True)
 
